@@ -8,6 +8,7 @@
 
 ## Screenshots
 ![Screenshot splash](docs/images/screenshot-1-splash.png "Splash")
+![Screenshot mainTodo](docs/images/screenshot-2-main-todolist.png "MainTodo")
 
 
 ## 목표 리스트(2022.08.03기준이며 지속 업데이트중)
@@ -18,5 +19,7 @@
 5. JetPack 라이브러리들을 이해한다
    1. App Startup
    2. Room
+   3. Trace
+   4. Compose Navigation
 6. CI/CD를 이해한다
    1. 구글 플레이스토어 자동 배포
