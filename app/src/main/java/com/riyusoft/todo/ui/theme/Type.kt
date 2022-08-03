@@ -1,4 +1,4 @@
-package com.riyusoft.myapplication.ui.theme
+package com.riyusoft.todo.ui.theme
 
 import androidx.compose.material.Typography
 import androidx.compose.ui.text.TextStyle

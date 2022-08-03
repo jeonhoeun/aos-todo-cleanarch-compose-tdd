@@ -1,0 +1,21 @@
+#!/bin/bash
+
+rm -f ./teamConfig/result.txt
+
+export JAVA_HOME='/Applications/Android Studio.app/Contents/jre/Contents/Home'
+export PATH=$JAVA_HOME/bin:$PATH
+
+conventions=("lint" "ktlintcheck" "detekt")
+for convention in "${conventions[@]}"
+do
+  RESULT=$(./gradlew ${convention})
+  STATUS=$?
+
+  if [ ${STATUS} -ne 0 ]; then
+  echo "${convention} failed"
+  printf "$RESULT" > ./teamConfig/result.txt
+  exit 1
+fi
+done
+
+exit 0

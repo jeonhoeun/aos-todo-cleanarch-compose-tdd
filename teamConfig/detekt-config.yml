@@ -1,0 +1,36 @@
+complexity:
+  LongParameterList:
+    ignoreDefaultParameters: true
+
+  LongMethod:
+    active: true
+    threshold: 60
+    excludes:
+      - '**/*Screen.kt'
+      - '**/*View.kt'
+      - '**/*UiComponent.kt'
+  ComplexMethod:
+    active: true
+    threshold: 15
+    excludes:
+      - '**/*Screen.kt'
+      - '**/*UiComponent.kt'
+
+style:
+  MagicNumber:
+    ignorePropertyDeclaration: true
+    ignoreCompanionObjectPropertyDeclaration: true
+    excludes:
+      - '**/*Screen.kt'
+      - '**/*View.kt'
+      - '**/*Test.kt'
+  UnusedPrivateMember:
+    ignoreAnnotated: [ 'preview' ]
+  UnnecessaryAbstractClass:
+    active: true
+    ignoreAnnotated: [ 'dagger.Module' ]
+naming:
+  TopLevelPropertyNaming:
+    constantPattern: '[A-Z][A-Za-z0-9]*'
+  FunctionNaming:
+    ignoreAnnotated: [ 'Composable' ]

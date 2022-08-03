@@ -5,6 +5,8 @@ plugins {
     id 'dagger.hilt.android.plugin'
 }
 
+apply from: '../teamConfig/tasks.gradle'
+
 android {
     compileSdk 32
 

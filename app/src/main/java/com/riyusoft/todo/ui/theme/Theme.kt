@@ -1,4 +1,4 @@
-package com.riyusoft.myapplication.ui.theme
+package com.riyusoft.todo.ui.theme
 
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.material.MaterialTheme

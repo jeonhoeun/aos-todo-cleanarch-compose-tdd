@@ -1,0 +1,13 @@
+task installGitHook(type: Copy){
+    from file("$rootProject.rootDir/teamConfig/pre-commit")
+    into file("$rootProject.rootDir/.git/hooks")
+    fileMode 0777
+}
+
+if (!System.getenv('CI')) {
+    println("> Install custom git-hook")
+    tasks.getByPath(':app:preBuild').dependsOn installGitHook
+
+    println("> Run ktlintFormat")
+    tasks.getByPath(':app:preBuild').dependsOn ktlintFormat
+}
