@@ -1,23 +1,19 @@
 plugins {
-    id 'com.android.application'
+    id 'com.android.library'
     id 'org.jetbrains.kotlin.android'
     id 'kotlin-kapt'
     id 'dagger.hilt.android.plugin'
 }
 
-apply from: '../teamConfig/tasks.gradle'
-
 android {
     compileSdk 32
 
     defaultConfig {
-        applicationId "com.riyusoft.todo"
         minSdk 21
         targetSdk 32
-        versionCode 1
-        versionName "1.0"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+        consumerProguardFiles "consumer-rules.pro"
         vectorDrawables {
             useSupportLibrary true
         }
@@ -64,26 +60,17 @@ dependencies {
     debugImplementation "androidx.compose.ui:ui-tooling:$compose_version"
     debugImplementation "androidx.compose.ui:ui-test-manifest:$compose_version"
 
-    //compose navigation
-    implementation "androidx.navigation:navigation-common:$navigation_version"
-    implementation "androidx.navigation:navigation-common-ktx:$navigation_version"
-    implementation "androidx.navigation:navigation-compose:$navigation_version"
-
     //hilt
     implementation "com.google.dagger:hilt-android:$hilt_version"
     kapt "com.google.dagger:hilt-android-compiler:$hilt_version"
-
     //hilt viewModel
     kapt "androidx.hilt:hilt-compiler:$hilt_viewModel_version"
     implementation "androidx.hilt:hilt-lifecycle-viewmodel:$hilt_viewModel_version"
+    implementation "androidx.hilt:hilt-navigation-compose:$hilt_navigation_compose_version"
 
     //tracing
     implementation "androidx.tracing:tracing:$tracing_version"
     implementation "androidx.tracing:tracing-ktx:$tracing_version"
 
-
-    implementation project(":core-navigation")
-
-    implementation project(":feature-splash")
-    implementation project(":feature-main")
+    implementation project (":core-navigation")
 }

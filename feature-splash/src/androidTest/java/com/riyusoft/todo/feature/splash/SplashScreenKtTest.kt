@@ -15,7 +15,7 @@ internal class SplashScreenKtTest {
     fun `SplashScreen_디자인가이드`() {
         composeTestRule.setContent {
             SplashScreen(
-                onTimer = {}
+                navigateToMain = {}
             )
         }
 

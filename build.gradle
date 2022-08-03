@@ -1,10 +1,13 @@
 buildscript {
     ext {
         compose_version = '1.2.0'
-
         hilt_version='2.38.1'
         hilt_viewModel_version='1.0.0-alpha03'
         hilt_navigation_compose_version='1.0.0'
+
+        navigation_version='2.5.1'
+
+        tracing_version='1.1.0'
 
     }
 

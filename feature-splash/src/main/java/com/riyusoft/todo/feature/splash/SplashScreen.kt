@@ -1,37 +1,39 @@
 package com.riyusoft.todo.feature.splash
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
-import androidx.hilt.navigation.compose.hiltViewModel
+import kotlinx.coroutines.delay
 
 @Composable
 fun SplashRoute(
-    viewModel: SplashViewModel = hiltViewModel()
+    navigateToMain: () -> Unit
 ) {
     SplashScreen(
-        viewModel::onTimer
+        navigateToMain = navigateToMain
     )
 }
 
 @Composable
 fun SplashScreen(
-    onTimer: () -> Unit
+    navigateToMain: () -> Unit
 ) {
 
     LaunchedEffect(true) {
-        println("before delay")
-        Thread.sleep(3000L)
-        println("after delay")
-        onTimer()
+        println("testtest:before delay")
+        delay(3000L)
+        println("testtest:after delay")
+        navigateToMain()
     }
 
     Column(
@@ -40,7 +42,9 @@ fun SplashScreen(
             .fillMaxHeight()
             .background(
                 color = Color(0xf5, 0xf5, 0xf5)
-            )
+            ),
+        verticalArrangement = Arrangement.Center,
+        horizontalAlignment = Alignment.CenterHorizontally
     ) {
         Text(text = stringResource(id = R.string.riyusoft))
     }
@@ -53,6 +57,6 @@ fun SplashScreen(
 @Composable
 fun SplashScreenPreview() {
     SplashScreen(
-        onTimer = {}
+        navigateToMain = {}
     )
 }
