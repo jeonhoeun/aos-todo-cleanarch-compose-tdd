@@ -16,3 +16,4 @@ rootProject.name = "RiyuTodo"
 include ':app'
 include ':domain'
 include ':data'
+include ':feature-splash'

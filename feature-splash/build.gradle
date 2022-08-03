@@ -1,23 +1,19 @@
 plugins {
-    id 'com.android.application'
+    id 'com.android.library'
     id 'org.jetbrains.kotlin.android'
     id 'kotlin-kapt'
     id 'dagger.hilt.android.plugin'
 }
 
-apply from: '../teamConfig/tasks.gradle'
-
 android {
     compileSdk 32
 
     defaultConfig {
-        applicationId "com.riyusoft.todo"
         minSdk 21
         targetSdk 32
-        versionCode 1
-        versionName "1.0"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+        consumerProguardFiles "consumer-rules.pro"
         vectorDrawables {
             useSupportLibrary true
         }
@@ -50,7 +46,6 @@ android {
 }
 
 dependencies {
-
     implementation 'androidx.core:core-ktx:1.7.0'
     implementation "androidx.compose.ui:ui:$compose_version"
     implementation "androidx.compose.material:material:$compose_version"
@@ -70,4 +65,5 @@ dependencies {
     //hilt viewModel
     kapt "androidx.hilt:hilt-compiler:$hilt_viewModel_version"
     implementation "androidx.hilt:hilt-lifecycle-viewmodel:$hilt_viewModel_version"
+    implementation "androidx.hilt:hilt-navigation-compose:$hilt_navigation_compose_version"
 }
