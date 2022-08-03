@@ -10,11 +10,13 @@
 ![Screenshot splash](docs/images/screenshot-1-splash.png "Splash")
 
 
-
-
-## 목표 리스트(2022.08.02기준이며 지속 업데이트중)
+## 목표 리스트(2022.08.03기준이며 지속 업데이트중)
 1. 클린아키텍쳐를 이해한다( 어니언 구조 : presentation, domain, data )
 2. Compose를 이해한다
 3. DI(hilt)를 이해한다
-4. TDD를 이해한다
-5. 로컬 리포지토리를 이해한다( Room )
+4. TDD 및 테스트를 이해한다
+5. JetPack 라이브러리들을 이해한다
+   1. App Startup
+   2. Room
+6. CI/CD를 이해한다
+   1. 구글 플레이스토어 자동 배포
