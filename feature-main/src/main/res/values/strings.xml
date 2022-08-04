@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="main_empty_desc">데이터를\n추가해주세요</string>
+    <string name="main_loading_desc">데이터를\n불러오는중입니다.</string>
+</resources>

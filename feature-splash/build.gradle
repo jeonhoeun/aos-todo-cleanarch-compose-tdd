@@ -63,13 +63,13 @@ dependencies {
     implementation "com.google.dagger:hilt-android:$hilt_version"
     kapt "com.google.dagger:hilt-android-compiler:$hilt_version"
     //hilt viewModel
-    kapt "androidx.hilt:hilt-compiler:$hilt_viewModel_version"
-    implementation "androidx.hilt:hilt-lifecycle-viewmodel:$hilt_viewModel_version"
+    //kapt "androidx.hilt:hilt-compiler:$hilt_viewModel_version"
+    //implementation "androidx.hilt:hilt-lifecycle-viewmodel:$hilt_viewModel_version"
     implementation "androidx.hilt:hilt-navigation-compose:$hilt_navigation_compose_version"
 
     //tracing
     implementation "androidx.tracing:tracing:$tracing_version"
     implementation "androidx.tracing:tracing-ktx:$tracing_version"
 
-    implementation project (":core-navigation")
+    compileOnly project (":core-navigation")
 }

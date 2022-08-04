@@ -31,7 +31,7 @@ fun SplashScreen(
 
     LaunchedEffect(true) {
         println("testtest:before delay")
-        delay(3000L)
+        delay(100L)
         println("testtest:after delay")
         navigateToMain()
     }

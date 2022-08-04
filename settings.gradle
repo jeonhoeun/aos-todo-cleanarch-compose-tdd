@@ -14,8 +14,11 @@ dependencyResolutionManagement {
 }
 rootProject.name = "RiyuTodo"
 include ':app'
-include ':domain'
-include ':data'
+
 include ':core-navigation'
+include ':core-data'
+
 include ':feature-splash'
 include ':feature-main'
+include ':core-model'
+
