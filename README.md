@@ -9,6 +9,7 @@
 ## Screenshots
 ![Screenshot splash](docs/images/screenshot-1-splash.png "Splash")
 ![Screenshot mainTodo](docs/images/screenshot-2-main-todolist.png "MainTodo")
+![Screenshot editTodo](docs/images/screenshot-3-edit-todo.png "EditTodo")
 
 
 ## 목표 리스트(2022.08.03기준이며 지속 업데이트중)
