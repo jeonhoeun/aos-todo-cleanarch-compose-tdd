@@ -5,6 +5,7 @@ import androidx.lifecycle.viewModelScope
 import com.riyusoft.todo.core.data.repository.todo.TodoRepository
 import com.riyusoft.todo.core.model.Todo
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.map
@@ -20,9 +21,9 @@ class MainViewModel @Inject constructor(
         private set
 
     init {
-        viewModelScope.launch {
+        viewModelScope.launch(Dispatchers.IO) {
             println("testtest:try get todo list")
-            todoRepository.getTodosStream().map {
+            todoRepository.getTodoAllStream().map {
                 println("map start")
                 val todoUiState = if (it.isEmpty()) {
                     TodoUiState.Empty

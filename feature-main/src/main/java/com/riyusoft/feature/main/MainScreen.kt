@@ -45,7 +45,7 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 @Composable
 fun MainRoute(
     navigateToNewTodo: () -> Unit,
-    navigateToEditTodo: (Int) -> Unit,
+    navigateToEditTodo: (Long) -> Unit,
     viewModel: MainViewModel = hiltViewModel()
 ) {
 
@@ -61,7 +61,7 @@ fun MainRoute(
 @Composable
 fun MainScreen(
     navigateToNewTodo: () -> Unit,
-    navigateToEditTodo: (Int) -> Unit,
+    navigateToEditTodo: (Long) -> Unit,
     todoUiState: TodoUiState
 ) {
 
@@ -118,7 +118,7 @@ fun MainScreen(
                                     .height(50.dp)
                                     .padding(horizontal = 32.dp)
                                     .clickable {
-                                        navigateToEditTodo(todo.id)
+                                        navigateToEditTodo(todo.id ?: -1)
                                     }
                                     .drawBehind {
                                         val strokeWidth = 1.dp.value * density

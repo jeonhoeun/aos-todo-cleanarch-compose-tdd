@@ -12,7 +12,7 @@ object MainDestination : TodoNavigationDestination {
 
 fun NavGraphBuilder.mainGraph(
     navigateToNewTodo: () -> Unit,
-    navigateToEditTodo: (Int) -> Unit,
+    navigateToEditTodo: (Long) -> Unit,
     nestedGraphs: NavGraphBuilder.() -> Unit
 ) {
     composable(route = MainDestination.route) {

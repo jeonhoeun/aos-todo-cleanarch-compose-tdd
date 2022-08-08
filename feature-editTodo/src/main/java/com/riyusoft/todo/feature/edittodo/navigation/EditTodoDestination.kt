@@ -12,7 +12,7 @@ object EditTodoDestination : TodoNavigationDestination {
     override val route = "edit_todo_route/{$editTodoIdArg}"
     override val destination = "edit_todo_destination"
 
-    fun createEditTodoRoute(editTodoIdArg: Int): String {
+    fun createEditTodoRoute(editTodoIdArg: Long): String {
         return "edit_todo_route/$editTodoIdArg"
     }
 }
@@ -24,7 +24,7 @@ fun NavGraphBuilder.editTodoGraph(
         route = EditTodoDestination.route,
         arguments = listOf(
             navArgument(EditTodoDestination.editTodoIdArg) {
-                type = NavType.IntType
+                type = NavType.LongType
             }
         )
     ) {

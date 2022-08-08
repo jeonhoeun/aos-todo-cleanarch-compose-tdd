@@ -7,6 +7,7 @@ import com.riyusoft.todo.core.data.repository.todo.TodoRepository
 import com.riyusoft.todo.core.model.Todo
 import com.riyusoft.todo.feature.edittodo.navigation.EditTodoDestination
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -17,55 +18,74 @@ class EditTodoViewModel @Inject constructor(
     val todoRepository: TodoRepository
 ) : ViewModel() {
 
-    private val todoId: Int = checkNotNull(savedStateHandle[EditTodoDestination.editTodoIdArg])
+    private val todoId: Long = checkNotNull(savedStateHandle[EditTodoDestination.editTodoIdArg])
+    private lateinit var editingTodo: Todo
 
-    var editTodoScreenUiState = MutableStateFlow<EditTodoScreenUiState>(
-        EditTodoScreenUiState(
-            EditTodoUiState("", "")
-        )
-    )
+    var editTodoScreenUiState = MutableStateFlow<EditTodoScreenUiState>(EditTodoScreenUiState.Loading)
         private set
 
     init {
         println("testtest: todoID:$todoId")
         if (todoId >= 0) {
-            viewModelScope.launch {
-                todoRepository.getTodo(todoId)?.run {
-                    editTodoScreenUiState.value = EditTodoScreenUiState(
-                        EditTodoUiState(title, data)
-                    )
+
+            viewModelScope.launch(Dispatchers.IO) {
+                editingTodo = todoRepository.getTodoById(todoId).also {
+                    println("testtest: title:${it.title}")
+                    launch(Dispatchers.Main) {
+                        editTodoScreenUiState.value = EditTodoScreenUiState.Success(
+                            EditTodoUiState(
+                                title = it.title,
+                                description = it.description
+                            )
+                        )
+                    }
                 }
             }
         }
     }
 
-    suspend fun onClickSave(title: String, data: String): Boolean {
+    fun onClickSave(title: String, description: String, callback: (Boolean) -> Unit) {
         println("testtest:onClickSave start before runblocking")
-        if (todoId == -1) {
-            return todoRepository.addTodo(
-                Todo(
-                    id = todoId,
-                    title = title,
-                    data = data
-                )
-            ) >= 0
-        } else {
-            return todoRepository.editTodo(
-                Todo(
-                    id = todoId,
-                    title = title,
-                    data = data
-                )
-            ) >= 0
+
+        viewModelScope.launch(Dispatchers.IO) {
+            println("testtest: todo id : $todoId")
+            if (todoId == -1L) {
+                todoRepository.insertTodo(
+                    Todo(
+                        title = title,
+                        description = description,
+                    )
+                ).also {
+                    launch(Dispatchers.Main) {
+                        callback(it >= 0)
+                    }
+                }
+            } else {
+                todoRepository.updateTodo(
+                    Todo(
+                        id = todoId,
+                        title = title,
+                        description = description,
+                        priority = editingTodo.priority
+                    )
+                ).also {
+                    launch(Dispatchers.Main) {
+                        callback(it >= 0)
+                    }
+                }
+            }
         }
     }
 }
 
 data class EditTodoUiState(
     val title: String,
-    val data: String
+    val description: String
 )
 
-data class EditTodoScreenUiState(
-    val editTodoUiState: EditTodoUiState
-)
+sealed interface EditTodoScreenUiState {
+    object Loading : EditTodoScreenUiState
+    data class Success(
+        val editTodoUiState: EditTodoUiState
+    ) : EditTodoScreenUiState
+}
