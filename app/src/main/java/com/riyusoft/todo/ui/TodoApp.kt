@@ -10,5 +10,6 @@ fun TodoApp(
     TodoNavHost(
         navController = appState.navController,
         onNavigateToDestination = appState::navigate,
+        onBackClick = appState::onBackClick
     )
 }

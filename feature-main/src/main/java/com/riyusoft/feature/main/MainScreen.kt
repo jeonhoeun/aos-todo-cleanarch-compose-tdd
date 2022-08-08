@@ -3,6 +3,7 @@ package com.riyusoft.feature.main
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -43,18 +44,24 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 @OptIn(ExperimentalLifecycleComposeApi::class)
 @Composable
 fun MainRoute(
+    navigateToNewTodo: () -> Unit,
+    navigateToEditTodo: (Int) -> Unit,
     viewModel: MainViewModel = hiltViewModel()
 ) {
 
     val uiState: MainScreenUiState by viewModel.uiState.collectAsStateWithLifecycle()
 
     MainScreen(
+        navigateToNewTodo = navigateToNewTodo,
+        navigateToEditTodo = navigateToEditTodo,
         todoUiState = uiState.todoState
     )
 }
 
 @Composable
 fun MainScreen(
+    navigateToNewTodo: () -> Unit,
+    navigateToEditTodo: (Int) -> Unit,
     todoUiState: TodoUiState
 ) {
 
@@ -110,6 +117,9 @@ fun MainScreen(
                                     .fillMaxWidth()
                                     .height(50.dp)
                                     .padding(horizontal = 32.dp)
+                                    .clickable {
+                                        navigateToEditTodo(todo.id)
+                                    }
                                     .drawBehind {
                                         val strokeWidth = 1.dp.value * density
                                         val y = size.height - strokeWidth / 2
@@ -139,7 +149,7 @@ fun MainScreen(
                 ) {
                     Spacer(modifier = Modifier.weight(1f))
                     IconButton(
-                        onClick = { /*TODO*/ },
+                        onClick = { navigateToNewTodo() },
                         modifier = Modifier
                             .testTag("new_button")
                             .clip(CircleShape)
@@ -178,7 +188,7 @@ fun MainScreen(
                     Spacer(modifier = Modifier.weight(1f))
 
                     IconButton(
-                        onClick = { /*TODO*/ },
+                        onClick = { navigateToNewTodo() },
                         modifier = Modifier
                             .testTag("new_button")
                             .clip(CircleShape)
@@ -217,6 +227,8 @@ fun MainScreen(
 @Composable
 fun MainScreenEmptyPreview() {
     MainScreen(
+        navigateToNewTodo = {},
+        navigateToEditTodo = { _ -> },
         todoUiState = TodoUiState.Empty
     )
 }

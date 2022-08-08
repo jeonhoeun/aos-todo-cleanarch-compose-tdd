@@ -1,6 +1,6 @@
 package com.riyusoft.todo.core.data.repository.di
 
-import com.riyusoft.todo.core.data.repository.todo.LocalTodoRepository
+import com.riyusoft.todo.core.data.repository.todo.LocalMemoryTodoRepository
 import com.riyusoft.todo.core.data.repository.todo.TodoRepository
 import dagger.Binds
 import dagger.Module
@@ -12,6 +12,6 @@ import dagger.hilt.components.SingletonComponent
 interface DataModule {
     @Binds
     fun bindsTodoRepository(
-        impl: LocalTodoRepository
+        impl: LocalMemoryTodoRepository
     ): TodoRepository
 }

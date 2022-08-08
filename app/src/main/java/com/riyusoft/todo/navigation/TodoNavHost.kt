@@ -7,6 +7,8 @@ import androidx.navigation.compose.NavHost
 import com.riyusoft.feature.main.navigation.MainDestination
 import com.riyusoft.feature.main.navigation.mainGraph
 import com.riyusoft.todo.core.navigation.TodoNavigationDestination
+import com.riyusoft.todo.feature.edittodo.navigation.EditTodoDestination
+import com.riyusoft.todo.feature.edittodo.navigation.editTodoGraph
 import com.riyusoft.todo.feature.splash.navigation.SplashDestination
 import com.riyusoft.todo.feature.splash.navigation.splashGraph
 
@@ -14,6 +16,7 @@ import com.riyusoft.todo.feature.splash.navigation.splashGraph
 fun TodoNavHost(
     navController: NavHostController,
     onNavigateToDestination: (TodoNavigationDestination, String?) -> Unit,
+    onBackClick: () -> Unit,
     modifier: Modifier = Modifier,
     startDestination: String = SplashDestination.route
 ) {
@@ -27,6 +30,22 @@ fun TodoNavHost(
                 onNavigateToDestination(MainDestination, null)
             }
         )
-        mainGraph()
+        mainGraph(
+            navigateToNewTodo = {
+                onNavigateToDestination(
+                    EditTodoDestination, EditTodoDestination.createEditTodoRoute(-1)
+                )
+            },
+            navigateToEditTodo = {
+                onNavigateToDestination(
+                    EditTodoDestination, EditTodoDestination.createEditTodoRoute(it)
+                )
+            },
+            nestedGraphs = {
+                editTodoGraph(
+                    onBackClick = onBackClick
+                )
+            }
+        )
     }
 }

@@ -10,8 +10,16 @@ object MainDestination : TodoNavigationDestination {
     override val destination = "main_destination"
 }
 
-fun NavGraphBuilder.mainGraph() {
+fun NavGraphBuilder.mainGraph(
+    navigateToNewTodo: () -> Unit,
+    navigateToEditTodo: (Int) -> Unit,
+    nestedGraphs: NavGraphBuilder.() -> Unit
+) {
     composable(route = MainDestination.route) {
-        MainRoute()
+        MainRoute(
+            navigateToNewTodo = navigateToNewTodo,
+            navigateToEditTodo = navigateToEditTodo
+        )
     }
+    nestedGraphs()
 }

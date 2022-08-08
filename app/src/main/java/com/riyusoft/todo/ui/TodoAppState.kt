@@ -25,6 +25,7 @@ class TodoAppState(
 ) {
 
     fun navigate(destination: TodoNavigationDestination, route: String? = null) {
+        println("testtest: navigate:$destination / route:$route")
         trace("Navigation: $destination") {
             when (destination is TopLevelDestination) {
                 true -> {
