@@ -40,16 +40,12 @@ jobs:
         with:
           name: app
           path: app/build/outputs/bundle/release/app-release.aab
-          
-      - name: Create service_account.json
-        id: createServiceAccount
-        run: echo '${{ secrets.SERVICE_ACCOUNT_JSON }}' > service_account.json
       
       - name: Deploy to Play Store
         id: deplay
         uses: r0adkll/upload-google-play@v1
         with:
-          serviceAccountJsonPlainText: service_account.json
+          serviceAccountJsonPlainText: ${{ secrets.SERVICE_ACCOUNT_JSON }}
           packageName: com.riyusoft.todo
           releaseFiles: app/build/outputs/bundle/release/app-release.aab
           track: production
