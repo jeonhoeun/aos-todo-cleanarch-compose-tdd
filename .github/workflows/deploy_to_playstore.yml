@@ -5,21 +5,28 @@ on:
 
 jobs:
   build:
+    name: Build And Deploy To Google Playstore
     runs-on: ubuntu-latest
+    
     steps:
       - name: Checkout
       - uses: actions/checkout@v2
+      
       - name: setup JDK 11
       - uses: actions/setup-java@v1
         with:
           java-version: 11.0.3
+          
       - name: Grant execute permission for gradlew
         run: chmod +x gradlew
+      
       - name: Build with Gradle
         run: ./gradlew build
+      
       - name: Build Release AAB
         id: buildRelease
         run: ./gradlew buildRelease
+      
       - name: Sign AAB
         id: sign
         uses: r0adkll/sign-android-release@v1
@@ -29,6 +36,7 @@ jobs:
           alias: ${{ secrets.ALIAS }}
           keyStorePassword: ${{ secrets.KEY_STORE_PASSWORD }}
           keyPassword: ${{ secrets.KEY_PASSWORD }}
+      
       - name: Upload AAB
         id: uploadArtifact
         uses: actions/upload-artifact@v1
@@ -39,6 +47,7 @@ jobs:
       - name: Create service_account.json
         id: createServiceAccount
         run: echo '${{ secrets.SERVICE_ACCOUNT_JSON }}' > service_account.json
+      
       - name: Deploy to Play Store (BETA)
         id: deplay
         uses: r0adkll/upload-google-play@v1
