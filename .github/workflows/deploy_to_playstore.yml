@@ -1,4 +1,4 @@
-name: DEPLOY TO PLAY STORE
+name: DEPLOY TO PLAY STORE RELEASE
 
 on:
   workflow_dispatch:
@@ -45,10 +45,12 @@ jobs:
         id: createServiceAccount
         run: echo '${{ secrets.SERVICE_ACCOUNT_JSON }}' > service_account.json
       
-      - name: Deploy to Play Store (BETA)
+      - name: Deploy to Play Store
         id: deplay
         uses: r0adkll/upload-google-play@v1
         with:
-          serviceAccountJson: service_account.json
+          serviceAccountJsonPlainText: service_account.json
           packageName: com.riyusoft.todo
           releaseFiles: app/build/outputs/bundle/release/app-release.aab
+          track: production
+          status: completed
