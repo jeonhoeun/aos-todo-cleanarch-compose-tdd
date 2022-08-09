@@ -16,13 +16,23 @@ class LocalDatabaseTodoRepository @Inject constructor(
 ) : TodoRepository {
     override suspend fun getTodoAllStream(): Flow<List<Todo>> {
         return flow {
-            println("testtest: start flow")
             dao.getTodoAll().map {
                 val returnValue = ArrayList<Todo>()
                 it.forEach {
                     returnValue.add(it.toModel())
                 }
-                println("emit")
+                emit(returnValue)
+            }.collect()
+        }
+    }
+
+    override suspend fun getTodosByGroupId(groupId: Long): Flow<List<Todo>> {
+        return flow {
+            dao.getTodosByGroupId(groupId).map {
+                val returnValue = ArrayList<Todo>()
+                it.forEach {
+                    returnValue.add(it.toModel())
+                }
                 emit(returnValue)
             }.collect()
         }
@@ -48,5 +58,9 @@ class LocalDatabaseTodoRepository @Inject constructor(
         ).also {
             println("update id : $it")
         }
+    }
+
+    override suspend fun moveTodoToTrash(id: Long) {
+        dao.moveTodoToTrash(id)
     }
 }

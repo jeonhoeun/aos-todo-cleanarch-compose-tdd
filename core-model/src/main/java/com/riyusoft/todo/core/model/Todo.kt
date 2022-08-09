@@ -4,5 +4,6 @@ data class Todo(
     val id: Long? = null,
     val title: String,
     val description: String,
-    val priority: Long = -1
+    val priority: Long = -1,
+    val groupId: Long
 )

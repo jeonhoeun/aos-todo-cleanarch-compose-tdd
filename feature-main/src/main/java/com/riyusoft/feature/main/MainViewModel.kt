@@ -14,17 +14,15 @@ import javax.inject.Inject
 
 @HiltViewModel
 class MainViewModel @Inject constructor(
-    todoRepository: TodoRepository
+    val todoRepository: TodoRepository
 ) : ViewModel() {
 
-    var uiState = MutableStateFlow(MainScreenUiState(todoState = TodoUiState.Loading))
+    var uiState = MutableStateFlow<MainScreenUiState>(MainScreenUiState.ShowData(todoState = TodoUiState.Loading))
         private set
 
     init {
         viewModelScope.launch(Dispatchers.IO) {
-            println("testtest:try get todo list")
-            todoRepository.getTodoAllStream().map {
-                println("map start")
+            todoRepository.getTodosByGroupId(2).map {
                 val todoUiState = if (it.isEmpty()) {
                     TodoUiState.Empty
                 } else {
@@ -32,10 +30,51 @@ class MainViewModel @Inject constructor(
                         todos = it
                     )
                 }
-                uiState.value = MainScreenUiState(todoUiState)
+                uiState.value = MainScreenUiState.ShowData(todoUiState)
             }.collect()
         }
     }
+
+    fun onClickDelete(id: Long?, title: String) {
+        id?.run {
+            uiState.value = MainScreenUiState.ShowDeleteDialog(
+                id = id,
+                title = title,
+                onClickOk = {
+                    viewModelScope.launch(Dispatchers.IO) {
+                        todoRepository.moveTodoToTrash(id)
+                    }
+                },
+                onClickCancel = {
+                    viewModelScope.launch(Dispatchers.IO) {
+                        todoRepository.getTodosByGroupId(2).map {
+                            val todoUiState = if (it.isEmpty()) {
+                                TodoUiState.Empty
+                            } else {
+                                TodoUiState.Success(
+                                    todos = it
+                                )
+                            }
+                            uiState.value = MainScreenUiState.ShowData(todoUiState)
+                        }.collect()
+                    }
+                }
+            )
+        }
+    }
+}
+
+sealed interface MainScreenUiState {
+    data class ShowDeleteDialog(
+        val id: Long,
+        val title: String,
+        val onClickOk: () -> Unit,
+        val onClickCancel: () -> Unit
+    ) : MainScreenUiState
+
+    data class ShowData(
+        val todoState: TodoUiState
+    ) : MainScreenUiState
 }
 
 sealed interface TodoUiState {
@@ -46,7 +85,3 @@ sealed interface TodoUiState {
 
     object Empty : TodoUiState
 }
-
-data class MainScreenUiState(
-    val todoState: TodoUiState
-)

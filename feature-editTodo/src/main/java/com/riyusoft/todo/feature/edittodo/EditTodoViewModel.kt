@@ -42,7 +42,11 @@ class EditTodoViewModel @Inject constructor(
                 }
             }
         } else {
-            editingTodo = Todo(title = "", description = "")
+            editingTodo = Todo(
+                title = "",
+                description = "",
+                groupId = 2
+            )
             editTodoScreenUiState.value = EditTodoScreenUiState.Success(
                 EditTodoUiState(
                     title = "",
@@ -62,6 +66,7 @@ class EditTodoViewModel @Inject constructor(
                     Todo(
                         title = title,
                         description = description,
+                        groupId = 2
                     )
                 ).also {
                     launch(Dispatchers.Main) {
@@ -74,7 +79,8 @@ class EditTodoViewModel @Inject constructor(
                         id = todoId,
                         title = title,
                         description = description,
-                        priority = editingTodo.priority
+                        priority = editingTodo.priority,
+                        groupId = editingTodo.groupId
                     )
                 ).also {
                     launch(Dispatchers.Main) {

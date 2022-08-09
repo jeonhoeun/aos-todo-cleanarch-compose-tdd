@@ -17,6 +17,9 @@ interface TodoDao {
     @Query("SELECT * FROM todo ORDER BY priority ASC")
     fun getTodoAll(): Flow<List<TodoEntity>>
 
+    @Query("SELECT * FROM todo WHERE group_id=:groupID ORDER BY priority ASC")
+    fun getTodosByGroupId(groupID: Long): Flow<List<TodoEntity>>
+
     @Query("SELECT MAX(rowid) FROM todo")
     fun getTodoMaxRowId(): Long
 
@@ -35,4 +38,11 @@ interface TodoDao {
 
     @Query("SELECT * FROM todo WHERE id=:id")
     fun getTodoById(id: Long): TodoEntity
+
+    @Transaction
+    fun moveTodoToTrash(id: Long) {
+        val targetTodo = getTodoById(id)
+        targetTodo.groupID = 1
+        updateTodo(targetTodo)
+    }
 }

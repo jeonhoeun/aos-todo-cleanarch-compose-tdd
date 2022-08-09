@@ -47,6 +47,7 @@ fun TodoEntity.toModel(): Todo {
         id = this.id,
         title = this.title,
         description = this.description,
-        priority = this.priority
+        priority = this.priority,
+        groupId = this.groupID
     )
 }
