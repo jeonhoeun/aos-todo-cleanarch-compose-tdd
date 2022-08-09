@@ -24,7 +24,9 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.ExperimentalLifecycleComposeApi
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
@@ -45,7 +47,6 @@ fun EditTodoRoute(
 }
 
 @Composable
-
 fun EditTodoScreen(
     uiState: EditTodoScreenUiState,
     onClickSave: (String, String, (Boolean) -> Unit) -> Unit,
@@ -85,7 +86,13 @@ fun EditTodoScreen(
                 shape = RoundedCornerShape(8.dp),
                 value = title.value,
                 onValueChange = { title.value = it },
-                placeholder = { Text(text = "title") },
+                placeholder = {
+                    Text(
+                        text = stringResource(R.string.edittodo_title_hint),
+                        color = Color(0x81, 0x81, 0x81, 0xFF),
+                        fontSize = 20.sp
+                    )
+                },
             )
             Spacer(modifier = Modifier.height(44.dp))
             TextField(
@@ -103,7 +110,13 @@ fun EditTodoScreen(
                 shape = RoundedCornerShape(8.dp),
                 value = desc.value,
                 onValueChange = { desc.value = it },
-                placeholder = { Text(text = "data") },
+                placeholder = {
+                    Text(
+                        text = stringResource(R.string.edittodo_desc_hint),
+                        color = Color(0x81, 0x81, 0x81, 0xFF),
+                        fontSize = 20.sp
+                    )
+                },
             )
             Spacer(modifier = Modifier.height(122.dp))
         }

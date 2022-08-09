@@ -41,6 +41,14 @@ class EditTodoViewModel @Inject constructor(
                     }
                 }
             }
+        } else {
+            editingTodo = Todo(title = "", description = "")
+            editTodoScreenUiState.value = EditTodoScreenUiState.Success(
+                EditTodoUiState(
+                    title = "",
+                    description = ""
+                )
+            )
         }
     }
 
