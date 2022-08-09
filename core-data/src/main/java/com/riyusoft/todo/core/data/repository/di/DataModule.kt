@@ -36,7 +36,8 @@ interface DataModule {
                     override fun onCreate(db: SupportSQLiteDatabase) {
                         super.onCreate(db)
                         GlobalScope.launch {
-                            db.execSQL("INSERT INTO todo_group VALUES('default',1)")
+                            db.execSQL("INSERT INTO todo_group VALUES('trash',1)")
+                            db.execSQL("INSERT INTO todo_group VALUES('default',2)")
                         }
                     }
                 }

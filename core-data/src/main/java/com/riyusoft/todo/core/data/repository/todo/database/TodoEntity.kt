@@ -24,7 +24,7 @@ data class TodoEntity(
     @NotNull @ColumnInfo(name = "title") var title: String,
     @ColumnInfo(name = "data") var description: String,
     @ColumnInfo(name = "priority") var priority: Long = -1,
-    @ColumnInfo(name = "group_id", defaultValue = "1") var groupID: Long = 1
+    @ColumnInfo(name = "group_id", defaultValue = "2") var groupID: Long = 2
 ) {
     @PrimaryKey(autoGenerate = true)
     var id: Long? = null

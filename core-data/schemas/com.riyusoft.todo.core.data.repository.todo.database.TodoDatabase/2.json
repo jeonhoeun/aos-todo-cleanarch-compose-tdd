@@ -2,11 +2,11 @@
   "formatVersion": 1,
   "database": {
     "version": 2,
-    "identityHash": "289ebaed0e9fbdebb057c0dba0eed6ba",
+    "identityHash": "f75a943b0929bfa9ddf32951154dfb72",
     "entities": [
       {
         "tableName": "todo",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`title` TEXT NOT NULL, `data` TEXT NOT NULL, `priority` INTEGER NOT NULL, `group_id` INTEGER NOT NULL DEFAULT 1, `id` INTEGER PRIMARY KEY AUTOINCREMENT, FOREIGN KEY(`group_id`) REFERENCES `todo_group`(`id`) ON UPDATE CASCADE ON DELETE CASCADE )",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`title` TEXT NOT NULL, `data` TEXT NOT NULL, `priority` INTEGER NOT NULL, `group_id` INTEGER NOT NULL DEFAULT 2, `id` INTEGER PRIMARY KEY AUTOINCREMENT, FOREIGN KEY(`group_id`) REFERENCES `todo_group`(`id`) ON UPDATE CASCADE ON DELETE CASCADE )",
         "fields": [
           {
             "fieldPath": "title",
@@ -31,7 +31,7 @@
             "columnName": "group_id",
             "affinity": "INTEGER",
             "notNull": true,
-            "defaultValue": "1"
+            "defaultValue": "2"
           },
           {
             "fieldPath": "id",
@@ -91,7 +91,7 @@
     "views": [],
     "setupQueries": [
       "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
-      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '289ebaed0e9fbdebb057c0dba0eed6ba')"
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, 'f75a943b0929bfa9ddf32951154dfb72')"
     ]
   }
 }

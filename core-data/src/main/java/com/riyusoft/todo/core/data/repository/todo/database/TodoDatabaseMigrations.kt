@@ -11,9 +11,10 @@ val MIGRATION_1_2 = object : Migration(1, 2) {
             " CREATE TABLE IF NOT EXISTS todo_group " +
                 " (`name` TEXT NOT NULL, `id` INTEGER PRIMARY KEY AUTOINCREMENT) "
         )
-        database.execSQL(" INSERT INTO todo_group VALUES('default',1) ")
+        database.execSQL(" INSERT INTO todo_group VALUES('trash',1) ")
+        database.execSQL(" INSERT INTO todo_group VALUES('default',2) ")
         database.execSQL(
-            " ALTER TABLE todo ADD COLUMN group_id INTEGER NOT NULL DEFAULT 1 " +
+            " ALTER TABLE todo ADD COLUMN group_id INTEGER NOT NULL DEFAULT 2 " +
                 " REFERENCES todo_group(id) ON UPDATE CASCADE ON DELETE CASCADE "
         )
         database.execSQL(" COMMIT ")
