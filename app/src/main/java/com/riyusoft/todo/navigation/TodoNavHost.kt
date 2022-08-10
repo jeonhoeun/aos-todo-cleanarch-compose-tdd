@@ -6,6 +6,7 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import com.riyusoft.feature.main.navigation.MainDestination
 import com.riyusoft.feature.main.navigation.mainGraph
+import com.riyusoft.todo.core.model.DefaultTodoGroupId
 import com.riyusoft.todo.core.navigation.TodoNavigationDestination
 import com.riyusoft.todo.feature.edittodo.navigation.EditTodoDestination
 import com.riyusoft.todo.feature.edittodo.navigation.editTodoGraph
@@ -27,7 +28,9 @@ fun TodoNavHost(
     ) {
         splashGraph(
             navigateToMain = {
-                onNavigateToDestination(MainDestination, null)
+                onNavigateToDestination(
+                    MainDestination, MainDestination.createMainRoute(DefaultTodoGroupId)
+                )
             }
         )
         mainGraph(

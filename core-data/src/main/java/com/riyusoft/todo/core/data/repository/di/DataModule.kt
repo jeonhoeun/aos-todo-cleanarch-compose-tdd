@@ -7,8 +7,10 @@ import androidx.sqlite.db.SupportSQLiteDatabase
 import com.riyusoft.todo.core.data.repository.todo.TodoRepository
 import com.riyusoft.todo.core.data.repository.todo.database.LocalDatabaseTodoRepository
 import com.riyusoft.todo.core.data.repository.todo.database.MIGRATION_1_2
+import com.riyusoft.todo.core.data.repository.todo.database.MIGRATION_2_3
 import com.riyusoft.todo.core.data.repository.todo.database.TodoDao
 import com.riyusoft.todo.core.data.repository.todo.database.TodoDatabase
+import com.riyusoft.todo.core.data.repository.todo.database.TodoGroupDao
 import dagger.Binds
 import dagger.Module
 import dagger.Provides
@@ -22,12 +24,12 @@ import kotlinx.coroutines.launch
 @InstallIn(SingletonComponent::class)
 interface DataModule {
     companion object {
+        val INSTANCE: TodoDatabase? = null
         @Provides
-        fun provideTodoDao(
-            @ApplicationContext context: Context
-        ): TodoDao {
-            println("testtest provideTodoDao")
-            return Room.databaseBuilder(
+        fun getInstance(
+            context: Context
+        ): TodoDatabase {
+            return INSTANCE ?: Room.databaseBuilder(
                 context,
                 TodoDatabase::class.java,
                 "todo_database.sqlite.db"
@@ -42,8 +44,21 @@ interface DataModule {
                     }
                 }
             ).addMigrations(
-                MIGRATION_1_2
-            ).build().todoDao()
+                MIGRATION_1_2, MIGRATION_2_3
+            ).build()
+        }
+        @Provides
+        fun provideTodoDao(
+            @ApplicationContext context: Context
+        ): TodoDao {
+            return getInstance(context).todoDao()
+        }
+
+        @Provides
+        fun provideTodoGroupDao(
+            @ApplicationContext context: Context
+        ): TodoGroupDao {
+            return getInstance(context).todoGroupDao()
         }
     }
 

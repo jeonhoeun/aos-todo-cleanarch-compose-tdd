@@ -1,7 +1,9 @@
 package com.riyusoft.feature.main
 
+import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.riyusoft.feature.main.navigation.MainDestination
 import com.riyusoft.todo.core.data.repository.todo.TodoRepository
 import com.riyusoft.todo.core.model.Todo
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -14,15 +16,20 @@ import javax.inject.Inject
 
 @HiltViewModel
 class MainViewModel @Inject constructor(
+    savedStateHandle: SavedStateHandle,
     val todoRepository: TodoRepository
 ) : ViewModel() {
+
+    private val todoGroupId: Long = checkNotNull(savedStateHandle[MainDestination.mainGroupIdArg])
 
     var uiState = MutableStateFlow<MainScreenUiState>(MainScreenUiState.ShowData(todoState = TodoUiState.Loading))
         private set
 
     init {
+        println("testtest:init main groupID : $todoGroupId")
         viewModelScope.launch(Dispatchers.IO) {
-            todoRepository.getTodosByGroupId(2).map {
+            todoRepository.getTodosByGroupId(todoGroupId).map {
+                println("testtest:main collected")
                 val todoUiState = if (it.isEmpty()) {
                     TodoUiState.Empty
                 } else {

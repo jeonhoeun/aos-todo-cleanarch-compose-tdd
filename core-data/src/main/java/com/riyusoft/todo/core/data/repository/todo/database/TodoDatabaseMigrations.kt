@@ -20,3 +20,18 @@ val MIGRATION_1_2 = object : Migration(1, 2) {
         database.execSQL(" COMMIT ")
     }
 }
+
+val MIGRATION_2_3 = object : Migration(2, 3) {
+    override fun migrate(database: SupportSQLiteDatabase) {
+        database.execSQL("BEGIN TRANSACTION")
+        database.execSQL(
+            " CREATE VIEW `TodoGroupView`" +
+                " AS SELECT todo_group.id as id," +
+                " todo_group.name as name, COUNT(todo.id) as todoCount" +
+                " FROM todo_group JOIN todo" +
+                " where todo.group_id=todo_group.id" +
+                " group by todo_group.id"
+        )
+        database.execSQL("COMMIT")
+    }
+}

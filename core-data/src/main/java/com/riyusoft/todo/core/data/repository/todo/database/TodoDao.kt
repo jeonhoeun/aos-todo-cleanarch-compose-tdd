@@ -39,6 +39,9 @@ interface TodoDao {
     @Query("SELECT * FROM todo WHERE id=:id")
     fun getTodoById(id: Long): TodoEntity
 
+    @Query("SELECT count(id) FROM TODO where group_id=:groupId")
+    fun getTodoCountByGroupId(groupId: Long): Flow<Int>
+
     @Transaction
     fun moveTodoToTrash(id: Long) {
         val targetTodo = getTodoById(id)

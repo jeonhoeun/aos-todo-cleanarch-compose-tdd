@@ -1,31 +1,24 @@
 plugins {
-    id 'com.android.application'
+    id 'com.android.library'
     id 'org.jetbrains.kotlin.android'
     id 'kotlin-kapt'
     id 'dagger.hilt.android.plugin'
 }
 
-apply from: '../teamConfig/tasks.gradle'
-
 android {
     compileSdk 32
 
     defaultConfig {
-        applicationId "com.riyusoft.todo"
         minSdk 21
         targetSdk 32
-        versionCode 3
-        versionName "22.08.0901"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
-        vectorDrawables {
-            useSupportLibrary true
-        }
+        consumerProguardFiles "consumer-rules.pro"
     }
 
     buildTypes {
         release {
-            minifyEnabled true
+            minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
     }
@@ -35,11 +28,6 @@ android {
     }
     kotlinOptions {
         jvmTarget = '1.8'
-    }
-    gradle.projectsEvaluated{
-        tasks.withType(JavaCompile){
-            options.compilerArgs << "-Xmaxerrs" << "500"
-        }
     }
     buildFeatures {
         compose true
@@ -57,23 +45,21 @@ android {
 dependencies {
 
     implementation 'androidx.core:core-ktx:1.7.0'
-    implementation "androidx.compose.ui:ui:$compose_version"
-    implementation "androidx.compose.material:material:$compose_version"
-    implementation "androidx.compose.ui:ui-tooling-preview:$compose_version"
     implementation 'androidx.lifecycle:lifecycle-runtime-ktx:2.3.1'
     implementation 'androidx.activity:activity-compose:1.3.1'
-
     testImplementation 'junit:junit:4.13.2'
     androidTestImplementation 'androidx.test.ext:junit:1.1.3'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.4.0'
+
+    //compose
+    implementation "androidx.compose.ui:ui:$compose_version"
+    implementation "androidx.compose.material:material:$compose_version"
+    implementation "androidx.compose.ui:ui-tooling-preview:$compose_version"
+    implementation "androidx.lifecycle:lifecycle-runtime-compose:$lifecycle_runtime_compose_version"
     androidTestImplementation "androidx.compose.ui:ui-test-junit4:$compose_version"
     debugImplementation "androidx.compose.ui:ui-tooling:$compose_version"
     debugImplementation "androidx.compose.ui:ui-test-manifest:$compose_version"
 
-    //compose navigation
-    implementation "androidx.navigation:navigation-common:$navigation_version"
-    implementation "androidx.navigation:navigation-common-ktx:$navigation_version"
-    implementation "androidx.navigation:navigation-compose:$navigation_version"
 
     //hilt
     implementation "com.google.dagger:hilt-android:$hilt_version"
@@ -82,21 +68,18 @@ dependencies {
     //hilt viewModel
     //kapt "androidx.hilt:hilt-compiler:$hilt_viewModel_version"
     //implementation "androidx.hilt:hilt-lifecycle-viewmodel:$hilt_viewModel_version"
-
-    //hilt navigation compose
-    implementation "androidx.hilt:hilt-navigation-compose:1.0.0"
+    implementation "androidx.hilt:hilt-navigation-compose:$hilt_navigation_compose_version"
 
     //tracing
     implementation "androidx.tracing:tracing:$tracing_version"
     implementation "androidx.tracing:tracing-ktx:$tracing_version"
 
+    compileOnly project (":core-navigation")
+    compileOnly project (":core-model")
+    testImplementation project (":core-model")
+    androidTestImplementation project (":core-model")
 
-    implementation project(":core-data")
-    implementation project(":core-model")
-    implementation project(":core-navigation")
-
-    implementation project(":feature-splash")
-    implementation project(":feature-main")
-    implementation project(":feature-editTodo")
-    implementation project(":feature-drawerMenu")
+    compileOnly project (":core-data")
+    testImplementation project (":core-data")
+    androidTestImplementation project (":core-data")
 }

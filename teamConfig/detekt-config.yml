@@ -23,6 +23,7 @@ style:
     excludes:
       - '**/*Screen.kt'
       - '**/*View.kt'
+      - '**/*UiComponent.kt'
       - '**/*Test.kt'
   UnusedPrivateMember:
     ignoreAnnotated: [ 'preview' ]

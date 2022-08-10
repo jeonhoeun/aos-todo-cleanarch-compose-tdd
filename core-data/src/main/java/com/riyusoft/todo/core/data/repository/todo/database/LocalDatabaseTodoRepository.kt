@@ -2,8 +2,10 @@ package com.riyusoft.todo.core.data.repository.todo.database
 
 import com.riyusoft.todo.core.data.repository.todo.TodoRepository
 import com.riyusoft.todo.core.model.Todo
+import com.riyusoft.todo.core.model.TodoGroup
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.forEach
 import kotlinx.coroutines.flow.map
@@ -12,7 +14,8 @@ import javax.inject.Singleton
 
 @Singleton
 class LocalDatabaseTodoRepository @Inject constructor(
-    private val dao: TodoDao
+    private val dao: TodoDao,
+    private val groupDao: TodoGroupDao
 ) : TodoRepository {
     override suspend fun getTodoAllStream(): Flow<List<Todo>> {
         return flow {
@@ -62,5 +65,44 @@ class LocalDatabaseTodoRepository @Inject constructor(
 
     override suspend fun moveTodoToTrash(id: Long) {
         dao.moveTodoToTrash(id)
+    }
+
+    override fun getTodoGroups(): Flow<List<TodoGroup>> {
+        return flow<List<TodoGroup>> {
+//            groupDao.getView().map {
+//                println("test3 view updated")
+//                emit(it.map {
+//                    TodoGroup(
+//                        id = it.id,
+//                        name = it.name,
+//                        todoCount = it.todoCount
+//                    )
+//                })
+//            }.collect()
+
+            dao.getTodoAll().combine(
+                groupDao.getTodoGroupsAll()
+            ) { todos, groups ->
+                val returnValue = ArrayList<TodoGroup>()
+                groups.forEach { group ->
+                    var todoCount = 0L
+                    todos.forEach { todo ->
+                        if (group.id == todo.groupID) {
+                            todoCount++
+                        }
+                    }
+                    group.id?.run {
+                        returnValue.add(
+                            TodoGroup(
+                                id = this,
+                                name = group.name,
+                                todoCount = todoCount
+                            )
+                        )
+                    }
+                }
+                emit(returnValue)
+            }.collect()
+        }
     }
 }

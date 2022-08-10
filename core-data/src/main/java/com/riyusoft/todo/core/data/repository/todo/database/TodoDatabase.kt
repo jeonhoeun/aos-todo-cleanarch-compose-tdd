@@ -4,10 +4,12 @@ import androidx.room.Database
 import androidx.room.RoomDatabase
 
 @Database(
-    version = 2,
+    version = 3,
     entities = [TodoEntity::class, TodoGroupEntity::class],
+    views = [TodoGroupView::class],
     exportSchema = true
 )
 abstract class TodoDatabase : RoomDatabase() {
     abstract fun todoDao(): TodoDao
+    abstract fun todoGroupDao(): TodoGroupDao
 }
